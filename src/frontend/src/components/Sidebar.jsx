@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 const nav = [
   { to: '/dashboard',  label: 'Dashboard' },
   { to: '/workout',    label: 'Workout'   },
+  { to: '/templates',  label: 'Templates' },
   { to: '/nutrition',  label: 'Nutrition' },
   { to: '/strength',   label: 'Strength'  },
   { to: '/body',       label: 'Body'      },

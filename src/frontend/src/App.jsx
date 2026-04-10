@@ -4,6 +4,8 @@ import Signup from './pages/Signup'
 import AppLayout from './components/AppLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
+import Workout from './pages/Workout'
+import Templates from './pages/Templates'
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/workout"    element={<Workout />} />
+          <Route path="/templates" element={<Templates />} />
         </Route>
       </Route>
 

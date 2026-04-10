@@ -4,6 +4,7 @@ from database import get_db
 import models
 from auth.schemas import RegisterRequest, LoginRequest, AuthResponse
 from auth.utils import hash_password, verify_password, create_token
+from seed import seed_user_templates
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -22,6 +23,8 @@ def register(body: RegisterRequest, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
+
+    seed_user_templates(db, user.id)
 
     return AuthResponse(
         access_token = create_token(user.id),

@@ -14,8 +14,28 @@ api.interceptors.request.use((config) => {
 
 // Auth helpers
 export const authAPI = {
-  login:    (email, password)              => api.post('/auth/login',    { email, password }),
-  register: (name, email, password, goal)  => api.post('/auth/register', { name, email, password, goal }),
+  login:    (email, password)             => api.post('/auth/login',    { email, password }),
+  register: (name, email, password, goal) => api.post('/auth/register', { name, email, password, goal }),
+}
+
+// Exercise library
+export const exercisesAPI = {
+  list: () => api.get('/exercises'),
+}
+
+// Templates
+export const templatesAPI = {
+  list:   ()           => api.get('/templates'),
+  create: (data)       => api.post('/templates', data),
+  update: (id, data)   => api.put(`/templates/${id}`, data),
+  delete: (id)         => api.delete(`/templates/${id}`),
+}
+
+// Workout logs
+export const workoutsAPI = {
+  list: ()     => api.get('/workouts'),
+  save: (data) => api.post('/workouts', data),
+  get:  (id)   => api.get(`/workouts/${id}`),
 }
 
 export default api

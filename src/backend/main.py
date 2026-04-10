@@ -1,18 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import engine, Base
-import models  # noqa: F401 — ensures models are registered before create_all
+from database import engine, Base, SessionLocal
+import models  # noqa: F401
 from auth.router import router as auth_router
+from workouts.router import router as workouts_router
+from seed import seed_exercises
 
-# Create all tables on startup if they don't exist yet.
-# When you switch to PostgreSQL you'd replace this with Alembic migrations,
-# which give you proper version-controlled schema changes.
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Lift API")
 
-# CORS — allows the React dev server (localhost:5175) to talk to this API.
-# In production, replace the wildcard with your actual domain.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
@@ -21,7 +18,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+def on_startup():
+    db = SessionLocal()
+    try:
+        seed_exercises(db)
+    finally:
+        db.close()
+
 app.include_router(auth_router)
+app.include_router(workouts_router)
 
 @app.get("/health")
 def health():
