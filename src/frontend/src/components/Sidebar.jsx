@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const nav = [
   { to: '/dashboard',  label: 'Dashboard' },
@@ -9,6 +9,14 @@ const nav = [
 ]
 
 export default function Sidebar() {
+  const navigate = useNavigate()
+
+  const signOut = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    navigate('/login')
+  }
+
   return (
     <aside style={{
       width: 200,
@@ -57,17 +65,21 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div style={{ padding: '0 28px' }}>
-        <NavLink
-          to="/login"
+        <button
+          onClick={signOut}
           style={{
+            background: 'none',
+            border: 'none',
             fontSize: 10,
             color: '#2A2A2A',
             letterSpacing: '0.08em',
-            textDecoration: 'none',
+            cursor: 'pointer',
+            fontFamily: 'DM Mono, monospace',
+            padding: 0,
           }}
         >
           SIGN OUT
-        </NavLink>
+        </button>
       </div>
     </aside>
   )

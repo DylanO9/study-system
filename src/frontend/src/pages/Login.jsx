@@ -1,13 +1,31 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { authAPI } from '../api'
 
 export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm]     = useState({ email: '', password: '' })
   const [focused, setFocused] = useState(null)
+  const [error, setError]   = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
-  const handleSubmit = (e) => { e.preventDefault(); navigate('/dashboard') }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const { data } = await authAPI.login(form.email, form.password)
+      localStorage.setItem('token', data.access_token)
+      localStorage.setItem('user', JSON.stringify({ id: data.user_id, name: data.name }))
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div style={{
@@ -125,8 +143,15 @@ export default function Login() {
               </a>
             </div>
 
+            {error && (
+              <div style={{ fontSize: 12, color: '#E85A3A', letterSpacing: '0.04em' }}>
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
+              disabled={loading}
               style={{
                 marginTop: 8,
                 padding: '14px',
@@ -137,13 +162,14 @@ export default function Login() {
                 letterSpacing: '0.1em',
                 fontFamily: 'DM Mono, monospace',
                 fontWeight: 500,
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.6 : 1,
                 transition: 'opacity 0.15s',
               }}
-              onMouseEnter={e => e.target.style.opacity = '0.85'}
-              onMouseLeave={e => e.target.style.opacity = '1'}
+              onMouseEnter={e => { if (!loading) e.target.style.opacity = '0.85' }}
+              onMouseLeave={e => { if (!loading) e.target.style.opacity = '1' }}
             >
-              SIGN IN
+              {loading ? 'SIGNING IN...' : 'SIGN IN'}
             </button>
 
           </form>

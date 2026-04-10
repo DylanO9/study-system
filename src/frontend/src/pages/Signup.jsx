@@ -1,14 +1,38 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { authAPI } from '../api'
 
 const goals = ['Build Muscle', 'Lose Fat', 'Improve Strength', 'General Fitness']
 
 export default function Signup() {
-  const [form, setForm]       = useState({ name: '', email: '', password: '', confirm: '' })
-  const [goal, setGoal]       = useState(null)
-  const [focused, setFocused] = useState(null)
+  const [form, setForm]         = useState({ name: '', email: '', password: '', confirm: '' })
+  const [goal, setGoal]         = useState(null)
+  const [focused, setFocused]   = useState(null)
+  const [error, setError]       = useState('')
+  const [loading, setLoading]   = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    if (form.password !== form.confirm) {
+      setError('Passwords do not match')
+      return
+    }
+    setLoading(true)
+    try {
+      const { data } = await authAPI.register(form.name, form.email, form.password, goal)
+      localStorage.setItem('token', data.access_token)
+      localStorage.setItem('user', JSON.stringify({ id: data.user_id, name: data.name }))
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Something went wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div style={{
@@ -95,7 +119,7 @@ export default function Signup() {
             </p>
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
             <Field
               label="NAME"
@@ -181,8 +205,15 @@ export default function Signup() {
               </div>
             </div>
 
+            {error && (
+              <div style={{ fontSize: 12, color: '#E85A3A', letterSpacing: '0.04em' }}>
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
+              disabled={loading}
               style={{
                 marginTop: 8,
                 padding: '14px',
@@ -193,13 +224,14 @@ export default function Signup() {
                 letterSpacing: '0.1em',
                 fontFamily: 'DM Mono, monospace',
                 fontWeight: 500,
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.6 : 1,
                 transition: 'opacity 0.15s',
               }}
-              onMouseEnter={e => e.target.style.opacity = '0.85'}
-              onMouseLeave={e => e.target.style.opacity = '1'}
+              onMouseEnter={e => { if (!loading) e.target.style.opacity = '0.85' }}
+              onMouseLeave={e => { if (!loading) e.target.style.opacity = '1' }}
             >
-              CREATE ACCOUNT
+              {loading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
             </button>
 
           </form>
