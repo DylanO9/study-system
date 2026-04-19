@@ -1,7 +1,5 @@
-import Signup from './signup/page'
+import Whiteboard from './components/Whiteboard'
+
 export default function Home() {
-  return (
-    <main>
-    </main>
-  );
+  return <Whiteboard />;
 }
