@@ -6,8 +6,10 @@ I've been doing self-studying for a couple of months, and I found myself being s
 Also, I've learned lots from my own personal self-study journey in terms of effective ways to study, and I will be incorporating those in the design of this project.
 
 ## Summary
-This platform is not only a unified place to track study materials, notes, time, but it can provide insights based on the notes you wrote during the session and create assessment material to make sure you have internalized it.
+This platform is a unified place to track study materials, notes, time, and it can provide insights based on the notes you wrote during the session and create assessment material to make sure you have internalized it.
 
+**Demo Video:**  
+**Site:**
 ## Features
 - User login/signup
 - Create, read, update, delete subjects and topics to study
