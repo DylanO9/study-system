@@ -65,3 +65,5 @@
 ## References (optional)
 - Docs, benchmarks, links, issues
 - https://medium.com/@gmlsoftlabs121/next-js-vs-vue-js-vs-angular-vs-react-js-decoding-the-web-development-dilemma-26032f37dcdf
+- https://dev.to/eva_clari_289d85ecc68da48/react-vs-vue-vs-angular-vs-nextjs-in-2025-which-one-should-you-learn-l42
+- https://medium.com/@KanakSengar/next-js-vs-vue-js-vs-react-js-the-ultimate-guide-for-web-developers-e405194ce7cf
