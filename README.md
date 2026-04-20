@@ -22,9 +22,11 @@ This platform is a unified place to track study materials, notes, time, and it c
 ## Technologies
 - **Frontend**: Next.js, TypeScript, TailwindCSS
 - **Backend**: Python, FastAPI, Pydantic
-- **Database**: PostgreSQL, Amazon RDS, pgvector
+- **Database**: PostgreSQL, Supabase, pgvector
+- **Authentication**: Supabase Auth
 - **Cache/Queue**: Redis + Celery
-- **Storage**: Amazon S3
+- **Storage**: Supabase Storage
 - **LLM**: OpenAI
 - **OCR**: Google Cloud Vision
-- **Infra**: Docker, Render
+- **Infra**: Docker, Vercel
+- **Testing**: Playwright, Postman
