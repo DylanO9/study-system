@@ -37,7 +37,7 @@
 
 ### Pros
 - Server side rendering
-- Static side generation
+- Static site generation
 - File-based routing
 - Built in state management
 - Search Engine Optimization(SEO) -> b/c of SSR & SSG
