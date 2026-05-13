@@ -6,6 +6,7 @@ export default function Navbar() {
                 <li>Home</li>
                 <li>Study</li>
                 <li>Insights</li>
+                <li><a href="/notes">Notes</a></li>
                 <li>Settings</li>
                 <li>Logout</li>
             </ul>
